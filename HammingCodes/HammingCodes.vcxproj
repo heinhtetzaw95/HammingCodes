@@ -112,6 +112,11 @@
   <ItemGroup>
     <ClCompile Include="HammingCodes.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Data2.txt" />
+    <Text Include="output.txt" />
+    <Text Include="testData.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
