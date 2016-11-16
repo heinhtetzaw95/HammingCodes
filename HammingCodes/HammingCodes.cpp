@@ -264,13 +264,13 @@ void getCodeWords(string original[][2], string codeWord[][2], string syndromes[]
 					//place the parity bits at their appropiate positions in both data strings
 					//place C5 in position 16
 			else if (j == 5) {
-				codeWord[i][0][j] = syndromes[i][0][4];
-				codeWord[i][1][j] = syndromes[i][1][4];
+				codeWord[i][0][j] = syndromes[i][0][0];
+				codeWord[i][1][j] = syndromes[i][1][0];
 			}
 					//place C4 in position 8
 			else if (j == 13) {
-				codeWord[i][0][j] = syndromes[i][0][3];
-				codeWord[i][1][j] = syndromes[i][1][3];
+				codeWord[i][0][j] = syndromes[i][0][1];
+				codeWord[i][1][j] = syndromes[i][1][1];
 			}
 					//place C3 in position 4
 			else if (j == 17) {
@@ -279,13 +279,13 @@ void getCodeWords(string original[][2], string codeWord[][2], string syndromes[]
 			}
 					//place C2 in position 2
 			else if (j == 19) {
-				codeWord[i][0][j] = syndromes[i][0][1];
-				codeWord[i][1][j] = syndromes[i][1][1];
+				codeWord[i][0][j] = syndromes[i][0][3];
+				codeWord[i][1][j] = syndromes[i][1][3];
 			}
 					//place C1 in position 1
 			else if (j == 20) {
-				codeWord[i][0][j] = syndromes[i][0][0];
-				codeWord[i][1][j] = syndromes[i][1][0];
+				codeWord[i][0][j] = syndromes[i][0][4];
+				codeWord[i][1][j] = syndromes[i][1][4];
 			}
 		}
 	}
@@ -372,27 +372,28 @@ string getMessage(int caseNumber, int x, int y) {
 
 					//return no error message for case 1
 		case 1:
-			temp = "A comparison of the syndrome words indicates that ";
-			temp += "the word read from memory is correct.";
+			temp = "A comparison of the syndrome words indicates that";
+			temp += "\n     the word read from memory is correct.";
 			return temp;
 
 					//return message for error on data bit position for case 2
 		case 2:
-			temp = "The syndrome word indicates that the bit in position " + to_string(x) + " of the ";
-			temp += "word read from memory is in error. It was read as a " + to_string(y) + " and must ";
+			temp = "The syndrome word indicates that the bit in position " + to_string(x);
+			temp += "\n     of the word read from memory is in error. It was read";
+			temp += "\n     as a " +to_string(y) + " and must ";
 			temp += "be inverted to a " + to_string(yInv) + ".";
 			return temp;
 
 					//return message for error on check bit position for case 3
 		case 3:
-			temp = "The syndrome word indicates that a check bit is in error. ";
-			temp += "No correction to the data is necessary.";
+			temp = "The syndrome word indicates that a check bit is in error.";
+			temp += "\n     No correction to the data is necessary.";
 			return temp;
 
 					//return message for uncorrectable error
 		case 4:
-			temp = "The value of the syndrome word indicates that the error ";
-			temp += "cannot be corrected. Output data is unreliable.";
+			temp = "The value of the syndrome word indicates that";
+			temp += "\n     the error cannot be corrected. Output data is unreliable.";
 			return temp;
 		}
 	}
@@ -409,8 +410,57 @@ void printMessage(ofstream &outfile, string input1, string input2, string stored
 			// Task - Prints the output the formatted record
 			// Returns - Nothing
 
-	outfile << endl << message << endl;
+	outfile << setfill(' ') << setw(5) << " "
+			<< "Original input words are:" << endl
+			<< setfill(' ') << setw(15) << " " 
+			<< setfill('-') << setw(25) << "-" << endl;
+
+	outfile << setfill(' ') << setw(20) << " "
+			<< input1 << endl
+			<< setfill(' ') << setw(20) << " "
+			<< input2 << endl << endl;
+
+	outfile << setfill(' ') << setw(15) << " "
+			<< "The input words was stored as:" << endl
+			<< setfill(' ') << setw(15) << " "
+			<< setfill('-') << setw(31) << " " << endl;
+
+	outfile << setfill(' ') << setw(20) << " "
+			<< stored << endl << endl;
+
+	outfile << setfill(' ') << setw(15) << " "
+		<< "The two SYNDROME code words are:" << endl
+		<< setfill(' ') << setw(15) << " "
+		<< setfill('-') << setw(33) << " " << endl;
+
+	outfile << setfill(' ') << setw(5) << " "
+			<< "K-bit code written into memory  --- ";
+	for (int i = 0; i < 5; i++) outfile << " " << syndrome1[i];
+	outfile << endl
+			<< setfill(' ') << setw(5) << " "
+			<< "K-bit code read from memory     --- ";
+	for (int i = 0; i < 5; i++) outfile << " " << syndrome2[i];
+	outfile << endl << endl;
+
+	outfile << setfill(' ') << setw(15) << " "
+			<< "SYNDROME word comparison is:" << endl
+			<< setfill(' ') << setw(15) << " "
+			<< setfill('-') << setw(29) << " " << endl
+			<< setfill(' ') << setw(23) << " ";
+	for (int i = 0; i < 5; i++) outfile << " " << fSyndrome[i];
+	outfile << endl << endl;
+
+	outfile << setfill(' ') << setw(15) << " "
+		<< "OUTPUT MESSAGE:" << endl
+		<< setfill(' ') << setw(15) << " "
+		<< setfill('-') << setw(16) << " " << endl
+		<< setfill(' ') << setw(5) << " "
+		 << message << endl << endl;
+
+	for (int i = 0; i < 80; i++) outfile << "-";
+	outfile << endl << endl;
 }
+
 //*****************************************************************************************************
 void header(ofstream &outfile) {
 
