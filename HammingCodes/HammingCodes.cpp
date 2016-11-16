@@ -37,14 +37,14 @@ void header(ofstream&);
 void footer(ofstream&);
 void calcSyndromes(string[][2], string[][2], int);
 void getCodeWords(string [][2], string [][2], string[][2], int);
-void printMessage(ofstream&, string, string, string, string, string, string, string);
+void printMessage(ofstream&, string, string, string, string, string, string, string, string);
 int compareSyndromes(string, string, string&, int&, int&);
 string getMessage(int, int, int);
 int binToDec(string);
 
 int main() {
 			//set up input file and output files
-	ifstream infile("testdata.txt", ios::in);
+	ifstream infile("data2.txt", ios::in);
 	ofstream outfile("output.txt", ios::out);
 
 			//print out the header file before anything
@@ -98,7 +98,7 @@ int main() {
 
 					//get message string for case 1
 			temp = getMessage(1, x, y);
-			printMessage(outfile, original[i][0], original[i][1], codeWord[i][0],
+			printMessage(outfile, original[i][0], original[i][1], codeWord[i][0], codeWord[i][1],
 				syndromes[i][0], syndromes[i][1], finalSyndrome, temp);
 		}
 				//print out for case 2
@@ -111,7 +111,7 @@ int main() {
 			temp = getMessage(2, x, y);
 
 					//print out the information
-			printMessage(outfile, original[i][0], original[i][1], codeWord[i][0],
+			printMessage(outfile, original[i][0], original[i][1], codeWord[i][0], codeWord[i][1],
 				syndromes[i][0], syndromes[i][1], finalSyndrome, temp);
 		}
 				//print out for case 3
@@ -121,7 +121,7 @@ int main() {
 			temp = getMessage(3, x, y);
 
 					//print out the information
-			printMessage(outfile, original[i][0], original[i][1], codeWord[i][0],
+			printMessage(outfile, original[i][0], original[i][1], codeWord[i][0], codeWord[i][1],
 				syndromes[i][0], syndromes[i][1], finalSyndrome, temp);
 		}
 				//print out for case 4
@@ -131,7 +131,7 @@ int main() {
 			temp = getMessage(4, x, y);
 				
 					//print out the information
-			printMessage(outfile, original[i][0], original[i][1], codeWord[i][0],
+			printMessage(outfile, original[i][0], original[i][1], codeWord[i][0], codeWord[i][1],
 				syndromes[i][0], syndromes[i][1], finalSyndrome, temp);
 		}
 
@@ -173,7 +173,7 @@ void calcSyndromes(string original[][2], string syndromes[][2], int counter) {
 
 				//calculate for output data
 		temp[1][16] = temp[1][15] + temp[1][14] + temp[1][12] + temp[1][11] + temp[1][9]
-			+ temp[1][7] + temp[1][5] + temp[1][4] + temp[1][2] + temp[1][0];
+					+ temp[1][7] + temp[1][5] + temp[1][4] + temp[1][2] + temp[1][0];
 		code[1][4] = temp[1][16] % 2;
 
 				//calculate for position 2
@@ -184,7 +184,7 @@ void calcSyndromes(string original[][2], string syndromes[][2], int counter) {
 
 				//calculate for output data
 		temp[1][17] = temp[1][15] + temp[1][13] + temp[1][12] + temp[1][10]
-			+ temp[1][9] + temp[1][6] + temp[1][5] + temp[1][3] + temp[1][2];
+					+ temp[1][9] + temp[1][6] + temp[1][5] + temp[1][3] + temp[1][2];
 		code[1][3] = temp[1][17] % 2;
 		
 				//calculate for position 4
@@ -195,7 +195,7 @@ void calcSyndromes(string original[][2], string syndromes[][2], int counter) {
 
 				//calculate for output data
 		temp[1][18] = temp[1][14] + temp[1][13] + temp[1][12] + temp[1][8]
-			+ temp[1][7] + temp[1][6] + temp[1][5] + temp[1][1] + temp[1][0];
+					+ temp[1][7] + temp[1][6] + temp[1][5] + temp[1][1] + temp[1][0];
 		code[1][2] = temp[1][18] % 2;
 		
 				//calculate for position 8
@@ -206,7 +206,7 @@ void calcSyndromes(string original[][2], string syndromes[][2], int counter) {
 
 				//calculate for output data
 		temp[1][19] = temp[1][11] + temp[1][10] + temp[1][9]
-			+ temp[1][8] + temp[1][7] + temp[1][6] + temp[1][5];
+					+ temp[1][8] + temp[1][7] + temp[1][6] + temp[1][5];
 		code[1][1] = temp[1][19] % 2;
 
 				//calculate for position 16
@@ -403,60 +403,77 @@ string getMessage(int caseNumber, int x, int y) {
 }
 
 //*****************************************************************************************************
-void printMessage(ofstream &outfile, string input1, string input2, string stored, 
+void printMessage(ofstream &outfile, string input1, string input2, string stored, string out,
 				string syndrome1, string syndrome2, string fSyndrome, string message) {
 
 			// Receives – information needed to print out each record
 			// Task - Prints the output the formatted record
 			// Returns - Nothing
 
+			//print title for original inputs
 	outfile << setfill(' ') << setw(5) << " "
 			<< "Original input words are:" << endl
 			<< setfill(' ') << setw(15) << " " 
-			<< setfill('-') << setw(25) << "-" << endl;
+			<< setfill('-') << setw(25) << " " << endl;
 
+			//print original inputs
 	outfile << setfill(' ') << setw(20) << " "
 			<< input1 << endl
 			<< setfill(' ') << setw(20) << " "
 			<< input2 << endl << endl;
 
+			//print title for stored word
 	outfile << setfill(' ') << setw(15) << " "
 			<< "The input words was stored as:" << endl
 			<< setfill(' ') << setw(15) << " "
 			<< setfill('-') << setw(31) << " " << endl;
 
+			//print stored word
 	outfile << setfill(' ') << setw(20) << " "
 			<< stored << endl << endl;
 
+			//print title for syndrome code words
 	outfile << setfill(' ') << setw(15) << " "
-		<< "The two SYNDROME code words are:" << endl
-		<< setfill(' ') << setw(15) << " "
-		<< setfill('-') << setw(33) << " " << endl;
+			<< "The two SYNDROME code words are:" << endl
+			<< setfill(' ') << setw(15) << " "
+			<< setfill('-') << setw(33) << " " << endl;
 
+			//print two syndrome code words
 	outfile << setfill(' ') << setw(5) << " "
 			<< "K-bit code written into memory  --- ";
+			
+			//separate syndrome word with spaces
 	for (int i = 0; i < 5; i++) outfile << " " << syndrome1[i];
 	outfile << endl
 			<< setfill(' ') << setw(5) << " "
 			<< "K-bit code read from memory     --- ";
+			
+			//separate syndrome word with spaces
 	for (int i = 0; i < 5; i++) outfile << " " << syndrome2[i];
 	outfile << endl << endl;
 
+			//print title for syndrome word comparison
 	outfile << setfill(' ') << setw(15) << " "
 			<< "SYNDROME word comparison is:" << endl
 			<< setfill(' ') << setw(15) << " "
 			<< setfill('-') << setw(29) << " " << endl
 			<< setfill(' ') << setw(23) << " ";
+
+			//print syndrome word comparison
 	for (int i = 0; i < 5; i++) outfile << " " << fSyndrome[i];
 	outfile << endl << endl;
 
+			//print title for output message
 	outfile << setfill(' ') << setw(15) << " "
-		<< "OUTPUT MESSAGE:" << endl
-		<< setfill(' ') << setw(15) << " "
-		<< setfill('-') << setw(16) << " " << endl
-		<< setfill(' ') << setw(5) << " "
-		 << message << endl << endl;
+			<< "OUTPUT MESSAGE:" << endl
+			<< setfill(' ') << setw(15) << " "
+			<< setfill('-') << setw(16) << " " << endl;
 
+				//print output message
+	outfile << setfill(' ') << setw(5) << " "
+			<< message << endl << endl;
+
+			//print a separation line between each records
 	for (int i = 0; i < 80; i++) outfile << "-";
 	outfile << endl << endl;
 }
